@@ -46,6 +46,8 @@ buttons.forEach(button => {
 
     let press = e.target.textContent; 
 
+    console.log(press);
+
     if (press === 'AC') {
       display.textContent = '';
       firstNum = null;
@@ -58,13 +60,23 @@ buttons.forEach(button => {
       currentNum = null;
     }
 
-    if (press.match(/[0-9]/)) {
-      (currentNum) ? currentNum += press : currentNum = press;
-      display.textContent = currentNum;
+    if (press.match(/[0-9\.]/)) {
+      if (press === '.' && currentNum.includes('.')) {
+        display.textContent = 'ERROR';
+      }
+      else {
+        (currentNum) ? currentNum += press : currentNum = press;
+        display.textContent = currentNum;
+      }
     }
 
     if (press === '=') {
-      display.textContent = operate(+firstNum, operator, +currentNum);
+
+      let result = operate(+firstNum, operator, +currentNum);
+      display.textContent = result;
+      currentNum = result;
     }
   })
 })
+
+
