@@ -15,12 +15,38 @@ function divide(a, b) {
   return a / b;
 }
 
-let a = 8;
-let b = 2;
+function power(a, b) {
+  return a ** b;
+}
 
-console.log(add(a, b));
-console.log(subtract(a, b));
-console.log(multiply(a, b));
-console.log(divide(a, b));
+function operate(a, operator, b) {
+  switch (operator) {
+    case '+':
+      return add(a, b);
+    case '-':
+      return subtract(a, b);
+    case '*':
+      return multiply(a, b);
+    case '/':
+      return divide(a, b);
+    case '**':
+      return power(a, b);
+  }
+}
 
-console.log(divide(a, 0));
+const buttons = document.querySelectorAll('button');
+const display = document.querySelector('#display');
+
+let firstNum = null;
+
+buttons.forEach(button => {
+  button.addEventListener('click', e => {
+
+    let press = e.target.textContent; 
+
+    if (press.match(/[0-9]/)) {
+      (firstNum) ? firstNum += press : firstNum = press;
+      display.textContent = firstNum;
+    }
+  })
+})
