@@ -44,6 +44,11 @@ buttons.forEach(button => {
 
     let press = e.target.textContent; 
 
+    if (press === 'AC') {
+      display.textContent = '';
+      firstNum = null;
+    }
+
     if (press.match(/[0-9]/)) {
       (firstNum) ? firstNum += press : firstNum = press;
       display.textContent = firstNum;
