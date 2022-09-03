@@ -38,6 +38,8 @@ const buttons = document.querySelectorAll('button');
 const display = document.querySelector('#display');
 
 let firstNum = null;
+let operator = null;
+let currentNum = null;
 
 buttons.forEach(button => {
   button.addEventListener('click', e => {
@@ -47,11 +49,22 @@ buttons.forEach(button => {
     if (press === 'AC') {
       display.textContent = '';
       firstNum = null;
+      currentNum = null;
+    }
+
+    if (press.match(/[\+\-\*\/xy]/)) {
+      (press === 'xy') ? operator = '**' : operator = press;
+      firstNum = currentNum;
+      currentNum = null;
     }
 
     if (press.match(/[0-9]/)) {
-      (firstNum) ? firstNum += press : firstNum = press;
-      display.textContent = firstNum;
+      (currentNum) ? currentNum += press : currentNum = press;
+      display.textContent = currentNum;
+    }
+
+    if (press === '=') {
+      display.textContent = operate(+firstNum, operator, +currentNum);
     }
   })
 })
