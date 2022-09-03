@@ -34,6 +34,44 @@ function operate(a, operator, b) {
   }
 }
 
+function trunc(num) {
+
+  num = num.toString();
+  let output;
+  let index;
+
+  if (+num > 10**20) return num;
+
+  if (+num > 99999999){
+
+    let int = num.charAt(0);
+    let decPlaces = num.charAt(1) + num.charAt(2);
+
+    if (num.includes('.')) {
+      index = num.indexOf('.') - 1;
+    }
+    else {
+      index = num.length - 1;
+    }
+
+    output = `${int}.${decPlaces}*10<sup>${index}</sup>`;
+    return output;
+  }
+
+  else if (num.length > 8) {   
+
+    if (num[7] === '.'){
+      output = num.slice(0, 7);
+    }
+    else {
+      output = num.slice(0, 8);
+    }
+    return output;
+  }
+  else return num;
+}
+
+
 const buttons = document.querySelectorAll('button');
 const display = document.querySelector('#display');
 
@@ -73,7 +111,7 @@ buttons.forEach(button => {
     if (press === '=') {
 
       let result = operate(+firstNum, operator, +currentNum);
-      display.textContent = result;
+      display.innerHTML = trunc(result);
       currentNum = result;
     }
   })
