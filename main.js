@@ -34,58 +34,115 @@ function operate(a, operator, b) {
   }
 }
 
-function trunc(num) {
+// function trunc(num) {
+
+//   num = num.toString();
+//   let output;
+//   let index;
+
+//   if (+num > 10**20) return num;
+
+//   // Returns result in scientific notation
+//   if (+num > 99999999){
+
+//     let int = num.charAt(0);
+//     let decPlaces = num.charAt(1) + num.charAt(2);
+
+//     if (num.includes('.')) {
+//       index = num.indexOf('.') - 1;
+//     }
+//     else {
+//       index = num.length - 1;
+//     }
+//     output = `${int}.${decPlaces}*10<sup>${index}</sup>`;
+//     return output;
+//   }
+
+//   else if (+num < -9999999){
+
+//     let int = num.charAt(1);
+//     let decPlaces = num.charAt(2) + num.charAt(3);
+
+//     if (num.includes('.')) {
+//       index = num.indexOf('.') - 2;
+//     }
+//     else {
+//       index = num.length - 2;
+//     }
+//     output = `-${int}.${decPlaces}*10<sup>${index}</sup>`;
+//     return output;
+//   }
+
+//   else if (num.length > 8) {   
+
+//     if (num[7] === '.'){
+//       output = num.slice(0, 7);
+//     }
+//     else {
+//       output = num.slice(0, 8);
+//     }
+//     return output;
+//   }
+
+//   else return num;
+// }
+
+
+// *** Experimental section ***
+
+let negativeFlag = false;
+
+function negativeCheck(num) {
+  if (negativeFlag) {
+    num = '-' + num;
+    negativeFlag = false;
+  }
+  return num;
+  }
+
+function truncate(num) {
 
   num = num.toString();
-  let output;
-  let index;
 
-  if (+num > 10**20) return num;
-
-  // Returns result in scientific notation
-  if (+num > 99999999){
-
-    let int = num.charAt(0);
-    let decPlaces = num.charAt(1) + num.charAt(2);
-
-    if (num.includes('.')) {
-      index = num.indexOf('.') - 1;
-    }
-    else {
-      index = num.length - 1;
-    }
-    output = `${int}.${decPlaces}*10<sup>${index}</sup>`;
-    return output;
+  if (num < 0) {
+    num = num.slice(1);
+    negativeFlag = true;
+  }
+  if (num.length <= 8) {
+    return negativeCheck(num);
   }
 
-  else if (+num < -9999999){
+  let exponent;
+  let decimalCheck = num.slice(0, 7);
 
-    let int = num.charAt(1);
-    let decPlaces = num.charAt(2) + num.charAt(3);
-
-    if (num.includes('.')) {
-      index = num.indexOf('.') - 2;
-    }
-    else {
-      index = num.length - 2;
-    }
-    output = `-${int}.${decPlaces}*10<sup>${index}</sup>`;
-    return output;
+  if (num.includes('e')) {
+    let eIndex = num.indexOf('e');
+    exponent = num.slice(eIndex);
+  }
+  else if (num.charAt(8) === '.' || decimalCheck.includes('.')) {
+    return negativeCheck(num.slice(0, 8));
   }
 
-  else if (num.length > 8) {   
+  let int = num.charAt(0);
+  let decPlaces = num.charAt(1) + num.charAt(2);
 
-    if (num[7] === '.'){
-      output = num.slice(0, 7);
+  if (!exponent) {
+    if (num.includes('.')){
+      exponent = `e+${num.indexOf('.') - 1}`;
     }
     else {
-      output = num.slice(0, 8);
+      exponent = `e+${num.length - 1}`;
     }
-    return output;
   }
+  num = `${int}.${decPlaces}${exponent}`;
 
-  else return num;
+  return negativeCheck(num);
+
 }
+
+// *** Experimental section *** ^^
+
+
 
 
 const buttons = document.querySelectorAll('button');
@@ -148,11 +205,11 @@ buttons.forEach(button => {
       if (repeatCalc) {
         firstNum = currentNum;
         result = operate(+firstNum, operator, +temp);
-        display.innerHTML = trunc(result);
+        display.innerHTML = truncate(result);
       }
       else {
         result = operate(+firstNum, operator, +currentNum);
-        display.innerHTML = trunc(result);
+        display.innerHTML = truncate(result);
         temp = currentNum;
       }
       
@@ -162,5 +219,6 @@ buttons.forEach(button => {
     }
   })
 })
+
 
 
