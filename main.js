@@ -95,6 +95,10 @@ let firstNum = null;
 let operator = null;
 let currentNum = null;
 
+let repeatCalc = false;
+let temp;
+let result;
+
 buttons.forEach(button => {
   button.addEventListener('click', e => {
 
@@ -108,6 +112,8 @@ buttons.forEach(button => {
 
     // Listens for operator key press
     if (press.match(/[\+\-\*\/xy]/)) {
+
+      repeatCalc = false;
 
       // Listens for +/-(negative) button press
       if (press.match(/\+\/\-/)) {
@@ -139,9 +145,20 @@ buttons.forEach(button => {
 
     if (press === '=') {
 
-      let result = operate(+firstNum, operator, +currentNum);
-      display.innerHTML = trunc(result);
+      if (repeatCalc) {
+        firstNum = currentNum;
+        result = operate(+firstNum, operator, +temp);
+        display.innerHTML = trunc(result);
+      }
+      else {
+        result = operate(+firstNum, operator, +currentNum);
+        display.innerHTML = trunc(result);
+        temp = currentNum;
+      }
+      
       currentNum = result;
+      repeatCalc = true;
+
     }
   })
 })
