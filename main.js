@@ -42,6 +42,7 @@ function trunc(num) {
 
   if (+num > 10**20) return num;
 
+  // Returns result in scientific notation
   if (+num > 99999999){
 
     let int = num.charAt(0);
@@ -53,7 +54,6 @@ function trunc(num) {
     else {
       index = num.length - 1;
     }
-
     output = `${int}.${decPlaces}*10<sup>${index}</sup>`;
     return output;
   }
@@ -82,9 +82,7 @@ let currentNum = null;
 buttons.forEach(button => {
   button.addEventListener('click', e => {
 
-    let press = e.target.textContent; 
-
-    console.log(press);
+    let press = e.target.textContent;
 
     if (press === 'AC') {
       display.textContent = '';
@@ -92,10 +90,25 @@ buttons.forEach(button => {
       currentNum = null;
     }
 
+    // Listens for operator key press
     if (press.match(/[\+\-\*\/xy]/)) {
-      (press === 'xy') ? operator = '**' : operator = press;
-      firstNum = currentNum;
-      currentNum = null;
+
+      // Listens for +/-(negative) button press
+      if (press.match(/\+\/\-/)) {
+        if (currentNum) {
+          currentNum = (+currentNum * (-1)).toString();
+          display.textContent = currentNum;
+        }
+        else {
+          currentNum = '-';
+          display.textContent = currentNum;
+        }
+      }
+      else {
+        (press === 'xy') ? operator = '**' : operator = press;
+        firstNum = currentNum;
+        currentNum = null;
+      }
     }
 
     if (press.match(/[0-9\.]/)) {
