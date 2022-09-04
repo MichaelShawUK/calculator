@@ -58,6 +58,21 @@ function trunc(num) {
     return output;
   }
 
+  else if (+num < -9999999){
+
+    let int = num.charAt(1);
+    let decPlaces = num.charAt(2) + num.charAt(3);
+
+    if (num.includes('.')) {
+      index = num.indexOf('.') - 2;
+    }
+    else {
+      index = num.length - 2;
+    }
+    output = `-${int}.${decPlaces}*10<sup>${index}</sup>`;
+    return output;
+  }
+
   else if (num.length > 8) {   
 
     if (num[7] === '.'){
@@ -68,6 +83,7 @@ function trunc(num) {
     }
     return output;
   }
+
   else return num;
 }
 
