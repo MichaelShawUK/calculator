@@ -155,6 +155,17 @@ let currentNum = null;
 let repeatCalc = false;
 let temp;
 let result;
+let prevOperator = null;
+
+function clearMemory() {
+  firstNum = null;
+  currentNum = null;
+  operator = null;
+  prevOperator = null;
+  result = null;
+  temp = null;
+  repeatCalc = false;
+}
 
 buttons.forEach(button => {
   button.addEventListener('click', e => {
@@ -163,8 +174,7 @@ buttons.forEach(button => {
 
     if (press === 'AC') {
       display.textContent = '';
-      firstNum = null;
-      currentNum = null;
+      clearMemory();
     }
 
     // Listens for operator key press
@@ -185,7 +195,15 @@ buttons.forEach(button => {
       }
       else {
         (press === 'xy') ? operator = '**' : operator = press;
-        firstNum = currentNum;
+        if (firstNum) {
+          result = operate(+firstNum, prevOperator, +currentNum);
+          display.textContent = truncate(result);
+          firstNum = result;
+        }
+        else {
+          firstNum = currentNum;
+        }
+        prevOperator = operator;
         currentNum = null;
       }
     }
@@ -216,6 +234,11 @@ buttons.forEach(button => {
       currentNum = result;
       repeatCalc = true;
 
+    }
+
+    if (press === 'del' && currentNum) {
+      currentNum = currentNum.slice(0, currentNum.length - 1);
+      display.textContent = currentNum;
     }
   })
 })
