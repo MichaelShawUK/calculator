@@ -8,7 +8,7 @@ TO-DO
 <!-- Allow user to chain operations and show the result in intermediate operations -->
 <!-- Create a function to clear memory -->
 <!-- Add a backspace button -->
-Implement keyboard operation
+<!-- Implement keyboard operation -->
 
 Pseudocode
 

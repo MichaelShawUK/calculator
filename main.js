@@ -47,7 +47,6 @@ function negativeCheck(num) {
 function truncate(num) {
 
   num = num.toString();
-  console.log(num);
 
   if (num < 0) {
     num = num.slice(1);
@@ -76,11 +75,7 @@ function truncate(num) {
   else {
     decPlaces = num.charAt(1) + num.charAt(2);
   }
-  console.log(`num: ${num}`)
-  console.log(`int: ${int}`)
-  console.log(`decPlaces: ${decPlaces}`)
-  console.log(`exponent: ${exponent}`)
-
+  
   if (!exponent) {
     if (num.includes('.')){
       exponent = `e+${num.indexOf('.') - 1}`;
@@ -118,8 +113,6 @@ function clearMemory() {
   repeatCalc = false;
 }
 
-
-
 buttons.forEach(button => {
   button.addEventListener('click', e => {
 
@@ -142,7 +135,7 @@ function calcDisplay(press) {
   }
 
   // Listens for operator key press
-  if (press.match(/[\+\-\*\/\^xy]/)) {
+  if (press.match(/[\+\-\*\/^xy]/)) {
 
     repeatCalc = false;
 
