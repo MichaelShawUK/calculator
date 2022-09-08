@@ -47,6 +47,7 @@ function negativeCheck(num) {
 function truncate(num) {
 
   num = num.toString();
+  console.log(num);
 
   if (num < 0) {
     num = num.slice(1);
@@ -68,7 +69,17 @@ function truncate(num) {
   }
 
   let int = num.charAt(0);
-  let decPlaces = num.charAt(1) + num.charAt(2);
+  let decPlaces;
+  if (num < 1) {
+   decPlaces = num.charAt(2) + num.charAt(3);
+  }
+  else {
+    decPlaces = num.charAt(1) + num.charAt(2);
+  }
+  console.log(`num: ${num}`)
+  console.log(`int: ${int}`)
+  console.log(`decPlaces: ${decPlaces}`)
+  console.log(`exponent: ${exponent}`)
 
   if (!exponent) {
     if (num.includes('.')){
@@ -107,82 +118,91 @@ function clearMemory() {
   repeatCalc = false;
 }
 
+
+
 buttons.forEach(button => {
   button.addEventListener('click', e => {
 
-    let press = e.target.textContent;
-
-    if (press === 'AC') {
-      display.textContent = '';
-      clearMemory();
-    }
-
-    // Listens for operator key press
-    if (press.match(/[\+\-\*\/xy]/)) {
-
-      repeatCalc = false;
-
-      // Listens for +/-(negative) button press
-      if (press.match(/\+\/\-/)) {
-        if (currentNum) {
-          currentNum = (+currentNum * (-1)).toString();
-          display.textContent = currentNum;
-        }
-        else {
-          currentNum = '-';
-          display.textContent = currentNum;
-        }
-      }
-      else {
-        (press === 'xy') ? operator = '**' : operator = press;
-        if (firstNum) {
-          result = operate(+firstNum, prevOperator, +currentNum);
-          display.textContent = truncate(result);
-          firstNum = result;
-        }
-        else {
-          firstNum = currentNum;
-        }
-        prevOperator = operator;
-        currentNum = null;
-      }
-    }
-
-    if (press.match(/[0-9\.]/)) {
-      if (press === '.' && currentNum.includes('.')) {
-        display.textContent = 'ERROR';
-      }
-      else {
-        (currentNum) ? currentNum += press : currentNum = press;
-        display.textContent = currentNum;
-      }
-    }
-
-    if (press === '=') {
-
-      if (repeatCalc) {
-        firstNum = currentNum;
-        result = operate(+firstNum, operator, +temp);
-        display.innerHTML = truncate(result);
-      }
-      else {
-        result = operate(+firstNum, operator, +currentNum);
-        display.innerHTML = truncate(result);
-        temp = currentNum;
-        firstNum = null;
-      }
-      
-      currentNum = result;
-      repeatCalc = true;
-
-    }
-
-    if (press === 'del' && currentNum) {
-      currentNum = currentNum.slice(0, currentNum.length - 1);
-      display.textContent = currentNum;
-    }
+    calcDisplay(e.target.textContent);
   })
 })
 
+window.addEventListener('keydown', e => {
+
+  calcDisplay(e.key);
+})
 
 
+function calcDisplay(press) {
+
+  if (press === 'AC' || press === 'Escape') {
+    display.textContent = '';
+    clearMemory();
+    location.reload();
+  }
+
+  // Listens for operator key press
+  if (press.match(/[\+\-\*\/\^xy]/)) {
+
+    repeatCalc = false;
+
+    // Listens for +/-(negative) button press
+    if (press.match(/\+\/\-/)) {
+      if (currentNum) {
+        currentNum = (+currentNum * (-1)).toString();
+        display.textContent = currentNum;
+      }
+      else {
+        currentNum = '-';
+        display.textContent = currentNum;
+      }
+    }
+    else {
+      (press === '^' || press === 'xy') ? operator = '**' : operator = press;
+      if (firstNum) {
+        result = operate(+firstNum, prevOperator, +currentNum);
+        display.textContent = truncate(result);
+        firstNum = result;
+      }
+      else {
+        firstNum = currentNum;
+      }
+      prevOperator = operator;
+      currentNum = null;
+    }
+  }
+
+  if (press.match(/[0-9\.]/)) {
+    if (press === '.' && currentNum.includes('.')) {
+      display.textContent = 'ERROR';
+    }
+    else {
+      (currentNum) ? currentNum += press : currentNum = press;
+      display.textContent = currentNum;
+    }
+  }
+
+  if (press === 'Enter' || press === '=') {
+
+    if (repeatCalc) {
+      firstNum = currentNum;
+      result = operate(+firstNum, operator, +temp);
+      display.textContent = truncate(result);
+    }
+    else {
+      result = operate(+firstNum, operator, +currentNum);
+      display.textContent = truncate(result);
+      temp = currentNum;
+      firstNum = null;
+    }
+    
+    currentNum = result;
+    repeatCalc = true;
+
+  }
+
+  if ((press === 'Backspace' || press === 'del') && currentNum) {
+    currentNum = currentNum.slice(0, currentNum.length - 1);
+    display.textContent = currentNum;
+  }
+}
