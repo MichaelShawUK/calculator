@@ -34,62 +34,6 @@ function operate(a, operator, b) {
   }
 }
 
-// function trunc(num) {
-
-//   num = num.toString();
-//   let output;
-//   let index;
-
-//   if (+num > 10**20) return num;
-
-//   // Returns result in scientific notation
-//   if (+num > 99999999){
-
-//     let int = num.charAt(0);
-//     let decPlaces = num.charAt(1) + num.charAt(2);
-
-//     if (num.includes('.')) {
-//       index = num.indexOf('.') - 1;
-//     }
-//     else {
-//       index = num.length - 1;
-//     }
-//     output = `${int}.${decPlaces}*10<sup>${index}</sup>`;
-//     return output;
-//   }
-
-//   else if (+num < -9999999){
-
-//     let int = num.charAt(1);
-//     let decPlaces = num.charAt(2) + num.charAt(3);
-
-//     if (num.includes('.')) {
-//       index = num.indexOf('.') - 2;
-//     }
-//     else {
-//       index = num.length - 2;
-//     }
-//     output = `-${int}.${decPlaces}*10<sup>${index}</sup>`;
-//     return output;
-//   }
-
-//   else if (num.length > 8) {   
-
-//     if (num[7] === '.'){
-//       output = num.slice(0, 7);
-//     }
-//     else {
-//       output = num.slice(0, 8);
-//     }
-//     return output;
-//   }
-
-//   else return num;
-// }
-
-
-// *** Experimental section ***
-
 let negativeFlag = false;
 
 function negativeCheck(num) {
@@ -139,10 +83,6 @@ function truncate(num) {
   return negativeCheck(num);
 
 }
-
-// *** Experimental section *** ^^
-
-
 
 
 const buttons = document.querySelectorAll('button');
@@ -229,6 +169,7 @@ buttons.forEach(button => {
         result = operate(+firstNum, operator, +currentNum);
         display.innerHTML = truncate(result);
         temp = currentNum;
+        firstNum = null;
       }
       
       currentNum = result;
