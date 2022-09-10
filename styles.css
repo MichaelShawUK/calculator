@@ -15,6 +15,9 @@ button {
   margin: 0.25em;
   font-family: monospace;
   font-weight: bold;
+  box-shadow: 2px 2px 5px black, 
+              inset 2px 2px 10px white, 
+              inset -1px -1px 10px white;
 }
 
 #display {
@@ -27,18 +30,22 @@ button {
   border-radius: 0.1em;
   max-width: 8em;
   overflow: hidden;
-  
+  box-shadow: inset 4px 4px 4px gray, 
+              inset -1px -1px 5px grey;
 }
 
 #container {
   display: flex;
   justify-content: center;
-  background: #a6b8c2;
+  background-color: #c1c1c1;
   padding: 2em;
   width: 50em;
   margin: 10em auto;
   border-radius: 1em;
-  border: 3px solid black;
+  border: 2px solid black;
+  box-shadow: 2px 2px 5px 4px gray,
+              inset 4px 4px 4px gray,
+              inset -4px -4px 2px gray;
 }
 
 sup {
@@ -53,6 +60,10 @@ sup {
   background: rgb(224, 197, 197);
 }
 
-#ac{
-  background: rgb(226, 180, 180);
+#ac, #del{
+  background: rgb(219, 124, 124);
+}
+
+button:hover {
+  box-shadow: inset 1px 1px 3px black;
 }
