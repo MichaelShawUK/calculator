@@ -52,33 +52,16 @@ let num = null;
 let result = null;
 
 window.addEventListener('keydown', e => {
-
-  if (e.key.match(/[0-9]/) || e.key == '.') {
-    (num) ? num += e.key : num = e.key;
-    displayNum(num);
-  }
-  if (e.key.match(/[\+\-\*\/\^xy]/)) {
-        
-    if (operator) {
-      getNumber(num);
-      secondNum = null;
-
-      if (firstNum && secondNum) {
-        calculateResult();
-      }
-    }
-    getNumber(num);
-    num = '';
-    operator = e.key;
-  }
-  if (e.key == '=' || e.key == 'Enter') {
-    getNumber(num);
-    if (firstNum && operator && secondNum) {
-          calculateResult();
-        }
-    }
+  userInput(e.key);
   }
 )
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => {
+  button.addEventListener('click', e => {
+    userInput(e.target.textContent);
+  })
+});
 
 function calculateResult() {
   result = operate(+firstNum, operator, +secondNum);
@@ -94,6 +77,35 @@ function displayNum(num) {
     num = +num;
     display.textContent = num.toExponential(2);
   }
+}
 
-  
+function userInput(press) {
+
+  console.log(num);
+
+  if (press.match(/[0-9]/) || press == '.') {
+    (+num) ? num += press : num = press;
+    displayNum(num);
+  }
+  if (press.match(/[\+\-\*\/\^xy]/)) {
+        
+    if (operator) {
+      getNumber(num);
+      secondNum = null;
+
+      if (firstNum && secondNum) {
+        calculateResult();
+      }
+    }
+    getNumber(num);
+    num = '';
+    operator = press;
+  }
+  if (press == '=' || press == 'Enter') {
+    getNumber(num);
+    if (firstNum && operator && secondNum) {
+          calculateResult();
+        }
+    }
+  if (press == 'AC') location.reload();
 }

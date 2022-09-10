@@ -21,7 +21,6 @@ button {
 }
 
 #display {
-  /* height: 1em; */
   padding: 0.5em;
   background: #eee;
   text-align: right;
@@ -54,10 +53,6 @@ sup {
 
 .operator {
   background: #c1c1c1;
-}
-
-#del {
-  background: rgb(224, 197, 197);
 }
 
 #ac, #del{
